@@ -27,6 +27,9 @@ export default function App() {
       id: 'gradient-layer',
       source: './example.zarr',
       variable: 'my_array',
+      // source: './gradient.zarr',
+      // variable: 'precip',
+      // @ts-expect-error: its needed to work
       version: 'v2',
       colormap: [
         [200, 10, 50],
