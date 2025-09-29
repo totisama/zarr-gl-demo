@@ -4,7 +4,7 @@ import mapboxgl, { type CustomLayerInterface } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string
-const source = '/zarr/gradient.zarr'
+const source = '/zarr/v1/gradient.zarr'
 
 export default function App() {
   const containerRef = useRef<HTMLDivElement | null>(null)

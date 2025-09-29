@@ -9,6 +9,7 @@ from ndpyramid import pyramid_reproject
 from rasterio.transform import from_bounds
 import rioxarray  # noqa: F401
 
+CURRENT_VERSION = "v1"
 VAR_NAME = "precip"
 LEVELS = 8
 TILE = 128
@@ -39,7 +40,7 @@ def main():
     transform = from_bounds(-180.0, -90.0, 180.0, 90.0, w, h)
     ds = ds.rio.write_crs("EPSG:4326").rio.write_transform(transform)
 
-    out = Path("data/gradient.zarr")
+    out = Path(f"data/{CURRENT_VERSION}/gradient.zarr")
     if out.exists():
         shutil.rmtree(out)
     out.parent.mkdir(parents=True, exist_ok=True)

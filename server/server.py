@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, abort, Response
+from flask import Flask, send_from_directory, abort, request
 from flask_cors import CORS
 from pathlib import Path
 import os
@@ -13,7 +13,13 @@ if not DATA_DIR.exists():
 app = Flask(__name__, static_folder=None)
 CORS(app, resources={r"/zarr/*": {"origins": "*"}})
 
-@app.route("/zarr/<zarr_name>/<path:subpath>")
+@app.after_request
+def add_cache_headers(resp):
+    if request.path.startswith("/zarr/"):
+        resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    return resp
+
+@app.route("/zarr/<path:zarr_name>/<path:subpath>")
 def zarr_files(zarr_name: str, subpath: str):
     zarr_dir = DATA_DIR / zarr_name
     file_path = zarr_dir / subpath
@@ -21,10 +27,12 @@ def zarr_files(zarr_name: str, subpath: str):
         abort(404)
     return send_from_directory(zarr_dir, subpath, conditional=True)
 
-@app.route("/zarr/<zarr_name>")
+@app.route("/zarr/<path:zarr_name>")
 def zarr_root(zarr_name: str):
-    # Return .zmetadata if it exists
     zarr_dir = DATA_DIR / zarr_name
+    meta = zarr_dir / ".zmetadata"
+    if not meta.exists():
+        abort(404)
     return send_from_directory(zarr_dir, ".zmetadata", conditional=True)
 
 @app.get("/healthz")
