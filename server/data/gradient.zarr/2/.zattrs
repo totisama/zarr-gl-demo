@@ -1,0 +1,27 @@
+{
+  "multiscales": [
+    {
+      "datasets": [
+        {
+          "path": ".",
+          "level": 2,
+          "crs": "EPSG:3857"
+        }
+      ],
+      "type": "reduce",
+      "metadata": {
+        "method": "pyramid_reproject",
+        "version": "0.4.0",
+        "args": [],
+        "kwargs": {
+          "level": 2,
+          "pixels_per_tile": 128,
+          "projection": "web-mercator",
+          "resampling": "average",
+          "extra_dim": null,
+          "clear_attrs": true
+        }
+      }
+    }
+  ]
+}

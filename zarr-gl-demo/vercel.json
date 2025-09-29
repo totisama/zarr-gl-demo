@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/zarr/(.*)",
+      "destination": "https://your-flask-server-domain.com/zarr/$1"
+    }
+  ]
+}
